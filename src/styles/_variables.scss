@@ -1,0 +1,58 @@
+// VARIABLES 
+// This section is made for easier management and consistency of important variables such as color.
+
+// Primary Colors
+$violet: hsl(235, 69%, 61%);
+$light-violet: hsl(235,82%,77%);
+$dark-blue: hsl(219,29%,14%);
+$midnight: hsl(220,29%,10%);
+
+// Secondary Colors
+$white: hsl(0, 0%, 100%);
+$light-grey: hsl(210,22%,96%);
+$gray: hsl(212,23%,69%);
+$dark-grey: hsl(214,17%,51%);
+
+
+$clr-main-1: hsl(218, 43%, 16%);
+$clr-main-2: hsl(218, 20%, 36%);
+$clr-main-3: hsl(30, 33%, 93%);
+$clr-main-4: rgb(250, 247, 245);
+$clr-main-5: hsl(264, 100%,69%);
+$clr-main-6: hsl(292,76%,54%);
+$clr-main-7: hsl(31,100%,65%);
+$clr-main-8: #FAF8F6;
+
+
+
+$clr-neutral-2: rgb(0, 0, 0);
+$clr-neutral-1: hsl(0,0%,100%);
+$clr-neutral-3:  #F2F2F2;
+
+$clr-bg-1: $clr-neutral-3;
+$clr-bg-2: $clr-main-2;
+$clr-bg-3: $clr-main-3;
+
+$btn-1-bg: $clr-main-1;
+$btn-1-text: $clr-main-1;
+$btn-1-bg-hover: $clr-main-1;
+$btn-1-text-hover: $clr-main-1;
+
+$clr-text-1: $clr-main-1;
+$clr-text-2: $clr-main-1;
+$clr-text-3: $clr-main-1;
+$clr-text-4: $clr-main-1;
+
+
+$fs-50: 1rem;
+$fs-100: 1.125rem;
+$fs-200: 2rem;
+$fs-300: 2.5rem;
+$fs-400: 3.5rem;
+
+$fs-p-small: $fs-50;
+
+$fw-thin:100;
+$fw-extra-light:200;
+$fw-medium:400;
+$fw-bold:700;

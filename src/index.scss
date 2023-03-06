@@ -1,0 +1,189 @@
+// SPECIAL NOTES:
+// USED SASS FOR MORE MANAGEABLE AND CLEANER CSS
+// COMPONENT FORMAT FOR OTHER SASS VARIABLES 
+
+@import "./styles/variables";
+@import "./styles/sizing";
+@import "./styles/font";
+
+//////////////////////////
+// #0 - MAJOR CSS RESET//
+////////////////////////
+  
+  // /* Box sizing rules */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  
+  /* Remove default margin */
+  /* major reset of everything */
+  * {
+    margin: 0;
+    padding: 0; 
+    font: inherit;
+  }
+  
+  /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+  ul[role='list'],
+  ol[role='list'] {
+    list-style: none;
+  }
+  
+  /* Set core root defaults */
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+  
+  /* avoid issues once in a while */
+  html, body {
+    min-height:100%;
+    overflow-x: hidden;
+    /* background-position-x: right; */
+  }
+  
+  /* Set core body defaults */
+  body {
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+    overflow-y: hidden;
+  }
+  
+  /* A elements that don't have a class get default styles */
+  a:not([class]) {
+    text-decoration-skip-ink: auto;
+  }
+  
+  /* Make images easier to work with */
+  img,
+  picture,svg {
+    max-width: 100%;
+    display: block;
+  }
+  
+  /* Inherit fonts for inputs and buttons */
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+  
+  /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+  @media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+     scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  
+  /* general styling */
+  
+  body {
+    font-size: $primary-font;
+    font-family:$primary-font;
+    color: var(--clr-primary-400);
+    background-color: #F4F6F8;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  /* ************** */
+  /* Utility Class */
+  /* ************ */
+  
+  .visually-hidden {
+  position: absolute;
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  }
+  
+  .container {
+    --max-width: 1110px;
+    --container-padding: 1rem;
+    width: min(var(--max-width), 100% - (var(--container-padding)*2));
+    margin-inline: auto;
+
+    @include lg {
+      --container-padding: 2.5rem;
+      width: min(var(--max-width), 100% - (var(--container-padding)*2));
+    }
+    @include xl {
+      --container-padding: 165px;
+      width: min(var(--max-width), 100% - (var(--container-padding)*2));
+    }
+
+
+  }
+  
+  /* how to select sibling elements + 1 */
+  /* .flow * + *{
+    outline: 2px solid rgb(121, 194, 149); 
+  } */
+  
+  :where(.flow :not(:first-child)) {
+    margin-top: var(--flow-spacer, 3em);
+  }
+  
+  /* Segment where even-columns generate equal columns of grid */
+  .even-columns { 
+    display: grid;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 50em){
+    .even-columns{
+      grid-auto-flow:column;
+      grid-auto-columns: 1fr;
+    }
+  }
+  
+
+////////////////////////////////////
+// #1 - SECTION ALL STUDENT TABLE//
+//////////////////////////////////
+
+.section-table { 
+  margin: 2rem;
+  
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+
+.column-image img {
+  width: 100px;
+  height: auto;
+}
