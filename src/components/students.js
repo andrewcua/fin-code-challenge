@@ -1,20 +1,63 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import photo from '../../public/photos/user_5.jpg';
+import { useSchool } from "./SchoolContext";
 
 function Students() {
+    const [school, setSchool] = useSchool();
     const [isLoading, setLoading] = useState(true);
-    const [course, setCourse] = useState([]);
-    
     const [studentsData, setStudentsData] = useState([]);
-    const [coursesData, setCoursesData] = useState([]);
-    const [allData, setAllData]=useState([]);
-    const [transmute, setTransmute]=useState([]);
     const [summary, setSummary] = useState([]);
-   const [courses, setCourses] = useState([])
-   const [profiles, setProfiles] = useState([])
+    const [courses, setCourses] = useState([]);
+    const [profiles, setProfiles] = useState([]);
+    const [sort, setSort] = useState(false);
+   //Filtered Data Set
+   const [data, setData] = useState([]);
+   const [searchInput, setSearchInput] = useState("");
+   const [fuzzyfiltered, setFuzzyfiltered] = useState([]);
+   const [temp, setTemp] = useState([]);
 
+   useEffect(()=>{
+    console.log('search input is ', searchInput);
+    console.log('temp value is ', temp);
+  }, [searchInput, temp]);
+
+
+// FUZZY EXPERIMENT
+useEffect(()=>{
+
+  
+  // const books = [
+  //   {
+  //     title: "The Lord of the Rings",
+  //     author: "J.R.R. Tolkien",
+  //     year: 1954
+  //   },
+  //   {
+  //     title: "The Hobbit",
+  //     author: "J.R.R. Tolkien",
+  //     year: 1937
+  //   },
+  //   {
+  //     title: "Harry Potter and the Philosopher's Stone",
+  //     author: "J.K. Rowling",
+  //     year: 1997
+  //   }
+  // ];
+  // const fuzzy_result = books.filter(book => regex.test(`${book.title} ${book.author}`));
+
+  
+  // const input = searchInput;
+  // const pattern = `.*${input.split('').join('.*')}.*`;
+  // const regex = new RegExp(pattern, 'i');
+  
+  // const fuzzy_result = summary.filter(item => regex.test(`${item.name} ${item.major}`));
+  console.log("search input is:", searchInput);
+
+  // setSummary(summary.filter(item => regex.test(`${item.name} ${item.major}`)));
+
+},[searchInput]);
+  
   //  COURSES - ASYNC FETCH and SAVE IN USESTATE, THEN CONSOLE LOG CHANGES
    useEffect(() => {
      const fetchData = async () => {
@@ -28,10 +71,9 @@ function Students() {
 
      fetchData()
        .then((res) => {
-         console.log(res);
+        //  console.log(res);
          setCourses(res)
-         console.log("COURSES ITEMS HERE:");
-         console.log(courses);
+         console.log("Fetch Courses Success, Data is here:", courses);
        })
        .catch((e) => {
          console.log(e.message)
@@ -40,23 +82,22 @@ function Students() {
 
    useEffect(() => {
      console.log("Changed Courses: ", courses)
-     
   }, [courses])
+
 
 ////////////////////////////////////
 /// RETURNS THE SUMMARY OF EACH ///
-///////////
+//////////////////////////////////
 var courseSummary = courses.reduce((counter,o)=>(
   counter[o.user_id] = (counter[o.user_id] || 0) + 1, counter
 ),{});
 
 console.log(courseSummary);
-console.log(courseSummary);
 
 const keys = Object.keys(courseSummary);
-console.log(keys);
+// console.log(keys);
 keys.forEach(key=>{
-  console.log(`${key}: ${courseSummary[key]}`);
+  // console.log(`${key}: ${courseSummary[key]}`);
 })
 
   //  Student Profiles - ASYNC FETCH and SAVE IN USESTATE, THEN CONSOLE LOG CHANGES
@@ -87,6 +128,10 @@ keys.forEach(key=>{
     console.log("Changed Profiles: ", profiles)
  }, [profiles])
 
+ useEffect(() => {
+  console.log("Changed Summary: ", summary)
+}, [summary])
+
    //  All Student - ASYNC FETCH and SAVE IN USESTATE, THEN CONSOLE LOG CHANGES
 
     useEffect(() => {
@@ -114,24 +159,13 @@ keys.forEach(key=>{
     // console.log(`value of data 2 is: ${data2}`);
 
 
-
-    // useEffect(()=>,[])
-
-    
-
-      // useEffect(()=>{
-
-      // },[])
-
-      
-    //   useEffect(() => {
-    //     console.log("Changed summary: ", summary)
-    //  }, [summary])
-
-
-///////////////
-////// ITERATION RUN: NEW ARRAY OF OBJECTS MERGING THREE FETCHED DATA TO CREATE ALL STUDENT PROFILES PAGE /////
-///////////////
+///////\\\\\\\\\\\\\\\\\\\\\
+////// ITERATION \\\\\\\\\\\\
+///// ARRAY OF OBJECTS \\\\\\\ 
+//// merging 3 fetched data \\\
+/// to be used globally \\\\\\\\
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//thanks for dropping by :) \\\\\\
 
     {
       for(var i = 0, l = studentsData.length; i < l; i++){
@@ -140,34 +174,25 @@ keys.forEach(key=>{
             if(summary.some(item=>item.user_id === profiles[j].user_id)){
 
             } else {
-              console.log(`found in ${i} - ${j}`);
-              console.log(courseSummary[profiles[j].user_id]);
+              // console.log(`found in ${i} - ${j}`);
+              // console.log(courseSummary[profiles[j].user_id]);
 
               summary.push({image: "user_" + studentsData[i].id + ".jpg", user_id:"user_" + studentsData[i].id,total_course:courseSummary['user_5'],...studentsData[i],...profiles[j]});
-              console.log(summary);
-              console.log(profiles[j]?.status[0]?.type);
+              
+              // console.log(summary);
+              // console.log(profiles[j]?.status[0]?.type);
             }
           } else {
             // console.log(`none found in ${i} - ${j}`);
           }
         }
       }
+      console.log(summary);
+      setSchool(summary);
+      console.log("Set School Value", school);
+      // setData(summary);
+        // console.log("Set Data Value", summary);
       }
-
-//       var array =
-//     [
-//         {"name":"abc","age":20},
-//         {"name":"abc","age":20},
-//         {"name":"abc","age":20},
-//         {"name":"xyz","age":21},
-//         {"name":"xyz","age":21}
-//     ];
-    
-// var result = array.reduce( (acc, o) => (
-//   acc[o.name] = (acc[o.name] || 0)+1, acc
-//   ), {} );
-
-// console.log(result);
 
 //STATUS VALUES CHECK//
 const statusCheck = (type) => {
@@ -186,20 +211,162 @@ const statusCheck = (type) => {
 
 console.log("Status Check:", statusCheck(2));
 
+const sorted = summary;
+
+// const sortData = (property,order) => {
+//   console.log("sorted OG is", sorted);
+//   setSort(!sort); //triggers re-render
+//   //important note: arr === arr, so no re-render happens below, 
+//   console.log("property is", property);
+//   console.log("order is", order);
+  
+
+//   if (order == 'asc'){
+//     console.log("ascending sort ran");
+//     setSummary(summary.sort((a, b) => a[property].localeCompare(b[property])));
+//   } else {
+//     console.log("descending sort ran");
+//     setSummary(summary.sort((b, a) => a[property].localeCompare(b[property])));
+//   }
+//   console.log("sorted data is", data);
+// };
+
+
+const sortData = event => {
+  console.log("sorted OG is", sorted);
+  
+  const value = event.target.value; 
+  console.log("value chosen is", value);
+  setSort(!sort); //triggers re-render
+  //important note: arr === arr, so no re-render happens below, 
+
+  if (value === 'name-asc'){
+    let property = 'name';
+    console.log("now running:", value);
+    
+    setSummary(summary.sort((a, b) => a[property].localeCompare(b[property])));
+  } 
+  
+  if (value === 'name-desc'){
+    let property = 'name';
+    console.log("now running:", value);
+    
+    setSummary(summary.sort((b, a) => a[property].localeCompare(b[property])));
+  }
+
+  if (value === 'major-asc'){
+    let property = 'major';
+    console.log("now running:", value);
+    
+    setSummary(summary.sort((a, b) => a[property].localeCompare(b[property])));
+  } 
+  
+  if (value === 'major-desc'){
+    let property = 'major';
+    console.log("now running:", value);
+    
+    setSummary(summary.sort((b, a) => a[property].localeCompare(b[property])));
+  }
+  console.log("sorted data is", data);
+};
+
+//FUZZY SEARCH LOGIC
+const mapped = () => {
+  if(temp.length>0){
+    return temp
+  }
+  else {
+    return summary
+  }
+};
+
+const handleChange = (e) => {
+  e.preventDefault();
+  setSearchInput(e.target.value);
+
+  const input = searchInput;
+  const pattern = `.*${input.split('').join('.*')}.*`;
+  const regex = new RegExp(pattern, 'i');
+  
+  const fuzzy_result = school.filter(item => regex.test(`${item.name} ${item.email} ${item.phone} ${item.major}`));
+  console.log("fuzzy_result is:", fuzzy_result);
+  // setFuzzyfiltered(fuzzy_result);
+  setTimeout(()=>{
+    setTemp(fuzzy_result);
+  },500);
+
+// if(temp.length>0) {
+//   const mapped = temp;
+// } else {
+//   const mapped = summary;
+// }
+
+};
+
+// OLD CODE REFERENCE: sortie.sort((a, b) => a.id - b.id);
+
+
 return (
     <>
-{/* {
-      studentsData.forEach((student)=>{
-        if(allData.some(item => item.id === student.id)){
-        } else {
-        allData.push({image: "user_" + student.id + ".jpg", user_id:"user_" + student.id,...student});
-        }
-        
-        })
-    } */}
+      <script src="https://kit.fontawesome.com/43dcc20e7a.js" crossorigin="anonymous"></script>
+<div className="setting-container">
+<div className="setting-left">
+      <div className="search-container">
+
+      <div class="search-box">
+        <input 
+        type="text" 
+        className="search-input" 
+        placeholder="Search.."
+        onChange = {handleChange}
+        value = {searchInput}
+        />
+        <button className="search-button">
+        🔍
+        </button>
+      </div>
+
+      </div>
+      
+    </div>
+
+    <div className="setting-right">
+    <select className="minimal" onChange={sortData}>
+        <option value="default">Click to Sort</option>
+        <option value="name-asc" >Sort by Name (Ascending)</option>
+        <option value="name-desc">Sort by Name (Descending)</option>
+        <option value="major-asc" >Sort by Major (Ascending)</option>
+        <option value="major-desc">Sort by Major (Descending)</option>
+    </select>
+
+    </div>
+</div>
+
+{/* 
+    <button className="button-sort" onClick={() => sortData('name','asc')}>Sort by Name (Ascending) </button>
+    <button className="button-sort" onClick={() => sortData('name','desc')}>Sort by Name (Descending)</button>
+    <button className="button-sort" onClick={() => sortData('major','asc')}>Sort by Major (Ascending) </button>
+    <button className="button-sort" onClick={() => sortData('major','desc')}>Sort by Major (Descending)</button> */}
+
+    {console.log("data at render:", data)}
+
+    <table>
+<tr>
+<th>Photo </th>
+
+<th>Name</th>
+<th>Phone</th>
+<th>Email</th>
+<th>Major</th>
+<th>Status</th>
+<th>Total Course</th>
+</tr>
 
 
-    {summary.map((student)=>{
+    {
+
+      
+      mapped().map((student)=>{
         return (
           <tr className="student-row" key={student.id}>
             <td className="column-image">
@@ -208,13 +375,10 @@ return (
             onError={imgError}
               />
 
-              {/* onError={({ currentTarget }) => {
-                currentTarget.onerror = null; // prevents looping
-                currentTarget.src={process.env.PUBLIC_URL + '/photos/user_1.jpg'};
-              }} */}
+
             </td>
-            <td>{student.id}</td>
-            <td><Link to={`/${student.id}`}>{student.name} {student.nickname ? `(${student.nickname})` : null} </Link> </td>
+            
+            <td><Link to={`/${student.user_id}`}>{student.name} {student.nickname ? `(${student.nickname})` : null} </Link> </td>
             <td>{student.phone}</td>
             <td>{student.email}</td>
             <td>{student.major}</td>
@@ -224,6 +388,7 @@ return (
         )
       })
     }
+    </table>
     </>
     
 )

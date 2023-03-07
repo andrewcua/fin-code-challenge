@@ -189,4 +189,50 @@ tr:nth-child(even) {
 .column-image img {
   width: 100px;
   height: auto;
+}
+
+.section-profile {
+  padding: 5rem;
+}
+
+.profile-photo {
+  width: 200px;
+  height: auto;
+  border-radius: 15px;
+  margin: 0 auto;
+}
+
+.profile-data {
+  text-align: left;
+}
+.profile-data p {
+  margin-block: 1rem;
+  font-weight: bold;
+}
+.profile-data span {
+  font-weight: normal;
+}
+
+.profile-courses-header td {
+  font-weight: bold;
+}
+
+.profile-holder {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 4rem;
+}
+
+.button-home {
+  width: 150px;
+  height: 30px;
+  border-radius: 2px;
+  border-style: none;
+  background-color: lightgray;
+  margin-block: 1rem;
+}
+
+.header-content {
+  text-align: center;
+  margin-bottom: 2rem;
 }/*# sourceMappingURL=index.css.map */
