@@ -31,13 +31,15 @@ Students Page Priorities
 - [x] The student status is also implemented using a javascript component. 
 - [x] Sorting feature is implemented, enabling sorting against Name, Major and Status.
 - [x] Fuzzy Search is also implemented, enabling searches across the database while allowing a certain leeway for spelling and flexible case sensitivity. 
+- [x] Fuzzy Search can be used in conjunction with the sorting feature. After fuzzy search, sorting operation can be performed on the search result. 
+- [x] If no result shows up on fuzzy search, the user will be notified with a little notice text. 
 
 Profile Page Priorities
 - [x] The student profile with the important data points are visible.
 - [x] All courses taken by the student are rendered. Duplicates are also removed.
 - [x] The course fees are visible and summarized.
 - [x] An exchange rate feature is also implemented. 
-
+- [x] If no courses are enrolled by the student, the user will be notified with a little notice text. 
 
 ## To run in a local environment:
 
@@ -49,3 +51,5 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.
 
 Please note that console may contain a lot of logs used in the development phase. 
+
+Final Notes: The project can still be improved and optimized in many ways. Given more time, these can be further implemented.

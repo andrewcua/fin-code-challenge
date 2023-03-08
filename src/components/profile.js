@@ -168,6 +168,20 @@ useEffect(() => {
     //convert final viewable number to a string with comma and two zeroes
     const formattedNumber = (item) => item.toLocaleString("en-US");
 
+    const usernotice = () => {
+        setTimeout(()=>{
+          console.log('usernotice time out 0.1s');
+        },100);
+      
+        if(enroll_unique.length<1){
+            return (
+                <p>No data found.</p>
+              )
+  
+        }
+      };
+
+
     return (
 <>
 
@@ -235,7 +249,7 @@ useEffect(() => {
         {enroll_unique.map((raw)=>{
             // console.log("value at DOM of enroll_raw", enroll_raw)
             return (
-        <tr className="profile-courses-row" key={1+id}>
+        <tr className="profile-courses-row" key={1000+id}>
             <td>{raw.semester_code}</td>
             <td>{raw.course_name}</td>
             <td>{raw.course_selection}</td>
@@ -247,6 +261,7 @@ useEffect(() => {
 
 
     </table>
+    {usernotice()}
 
     <Link to="/"><button className='button-home button-footer'>Back Home</button></Link>
 </div>

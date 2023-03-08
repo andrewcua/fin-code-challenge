@@ -17,6 +17,7 @@ function Students() {
    const [searchInput, setSearchInput] = useState("");
    const [fuzzyfiltered, setFuzzyfiltered] = useState([]);
    const [temp, setTemp] = useState([]);
+   const [add, setAdd] = useState();
 
    useEffect(()=>{
     console.log('search input is ', searchInput);
@@ -47,6 +48,7 @@ useEffect(()=>{
         //  console.log(res);
          setCourses(res)
          console.log("Fetch Courses Success, Data is here:", courses);
+
        })
        .catch((e) => {
          console.log(e.message)
@@ -61,17 +63,23 @@ useEffect(()=>{
 ////////////////////////////////////
 /// RETURNS THE SUMMARY OF EACH ///
 //////////////////////////////////
-var courseSummary = courses.reduce((counter,o)=>(
-  counter[o.user_id] = (counter[o.user_id] || 0) + 1, counter
-),{});
 
-console.log(courseSummary);
+useEffect(()=>{
+  let courseSummary = courses.reduce((counter,o)=>(
+    counter[o.user_id] = (counter[o.user_id] || 0) + 1, counter
+  ),{});
+  
+  setAdd(courseSummary);
+  console.log("coursesummary:",courseSummary);
+  console.log("add:",add);
+  
+},[courses])
 
-const keys = Object.keys(courseSummary);
+// const keys = Object.keys(courseSummary);
 // console.log(keys);
-keys.forEach(key=>{
+// keys.forEach(key=>{
   // console.log(`${key}: ${courseSummary[key]}`);
-})
+// })
 
   //  Student Profiles - ASYNC FETCH and SAVE IN USESTATE, THEN CONSOLE LOG CHANGES
 
@@ -122,6 +130,39 @@ keys.forEach(key=>{
         console.log("Changed studentsData: ", studentsData)
      }, [studentsData])
 
+
+useEffect(()=>{
+  for(var i = 0, l = studentsData.length; i < l; i++){
+    for(var j = 0, ll = profiles.length; j < ll; j++){
+      if(`user_${studentsData[i].id}` === profiles[j].user_id){
+        if(summary.some(item=>item.user_id === profiles[j].user_id)){
+
+        } else {
+          // console.log(`found in ${i} - ${j}`);
+          // console.log(courseSummary[profiles[j].user_id]);
+          // console.log("Status Changed", SchoolStatus(profiles[j]?.status[0]?.type));
+          console.log("summary is pushing");
+
+          const newcourse = courses.filter(item => item.user_id == profiles[j].user_id);
+          console.log(`new course is ${newcourse}`);
+          const coursetotal = newcourse.length;
+          console.log(`coursetotal is ${coursetotal}`);
+
+
+
+          console.log('coursesummary user_1:', add['user_1']);
+          summary.push({image: "user_" + studentsData[i].id + ".jpg", user_id:"user_" + studentsData[i].id, course_total:coursetotal, total_course:add['user_5'],status_changed: SchoolStatus(profiles[j]?.status[0]?.type),...studentsData[i],...profiles[j]});
+
+        }
+      } else {
+      }
+    }
+  }
+  console.log(summary);
+  setSchool(summary);
+  
+},[courses])
+
     if (isLoading) {
         return <div className="App">Loading...</div>;
       }
@@ -143,35 +184,40 @@ keys.forEach(key=>{
 //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //thanks for dropping by :) \\\\\\
 
+setTimeout(()=>{
+  console.log('timing out - gimme five');
+},100);
+
+
+
+// TEMP REMOVED
     {
-      for(var i = 0, l = studentsData.length; i < l; i++){
-        for(var j = 0, ll = profiles.length; j < ll; j++){
-          if(`user_${studentsData[i].id}` === profiles[j].user_id){
-            if(summary.some(item=>item.user_id === profiles[j].user_id)){
+      // for(var i = 0, l = studentsData.length; i < l; i++){
+      //   for(var j = 0, ll = profiles.length; j < ll; j++){
+      //     if(`user_${studentsData[i].id}` === profiles[j].user_id){
+      //       if(summary.some(item=>item.user_id === profiles[j].user_id)){
 
-            } else {
-              // console.log(`found in ${i} - ${j}`);
-              // console.log(courseSummary[profiles[j].user_id]);
-              // console.log("Status Changed", SchoolStatus(profiles[j]?.status[0]?.type));
-              console.log("summary is pushing");
+      //       } else {
+      //         console.log("summary is pushing");
 
-              const newcourse = courses.filter(item => item.user_id == profiles[j].user_id);
-              const coursetotal = newcourse.length;
-              console.log(`new course is ${coursetotal}`);
+      //         const newcourse = courses.filter(item => item.user_id == profiles[j].user_id);
+      //         console.log(`new course is ${newcourse}`);
+      //         const coursetotal = newcourse.length;
+      //         console.log(`coursetotal is ${coursetotal}`);
 
 
-              summary.push({image: "user_" + studentsData[i].id + ".jpg", user_id:"user_" + studentsData[i].id, course_total:coursetotal, total_course:courseSummary['user_5'],status_changed: SchoolStatus(profiles[j]?.status[0]?.type),...studentsData[i],...profiles[j]});
 
-            }
-          } else {
-          }
-        }
-      }
-      console.log(summary);
-      setSchool(summary);
-      console.log("Set School Value", school);
-      // setData(summary);
-        // console.log("Set Data Value", summary);
+      //         console.log('coursesummary user_1:', add['user_1']);
+      //         summary.push({image: "user_" + studentsData[i].id + ".jpg", user_id:"user_" + studentsData[i].id, course_total:coursetotal, total_course:add['user_5'],status_changed: SchoolStatus(profiles[j]?.status[0]?.type),...studentsData[i],...profiles[j]});
+
+      //       }
+      //     } else {
+      //     }
+      //   }
+      // }
+      // console.log(summary);
+      // setSchool(summary);
+
       }
 
 //STATUS VALUES CHECK//
@@ -295,7 +341,27 @@ const mapped = () => {
     return temp
   }
   else {
+    if(searchInput.length>0){
+      return temp
+    }
     return summary
+  }
+};
+
+const usernotice = () => {
+  setTimeout(()=>{
+    console.log('mapped 2 time out 0.1s');
+  },100);
+
+  if(temp.length>0){
+    
+  }
+  else {
+    if(searchInput.length>0){
+      return (
+        <p>No data found. Please try another keyword.</p>
+      )
+    }
   }
 };
 
@@ -326,6 +392,13 @@ const handleChange = (e) => {
 
 // OLD CODE REFERENCE: sortie.sort((a, b) => a.id - b.id);
 
+// const Hi = () => {
+//   if(temp.length=0 && searchInput.length>0){
+//     return (
+//       <div><p>Hello, there is no result, please make another search.</p></div>
+//     )
+//   }
+// }
 
 return (
     <>
@@ -412,7 +485,10 @@ return (
         )
       })
     }
+
+    
     </table>
+    {usernotice()}
     </>
     
 )
