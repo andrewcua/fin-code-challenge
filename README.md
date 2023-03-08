@@ -1,71 +1,51 @@
-# Getting Started with Create React App
+# STUDENT DATABASE APP
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The code challenge aims to make it easy to search for any student's latest information and view their profiles along with the courses they're taking. 
 
-## Available Scripts
+## Priorities in this Challenge
 
-In the project directory, you can run:
+1. Ensure fundamental usability of the intended outcome
+2. Ensure completeness of the code
+3. With limited time, features addressing user objective will be priority
 
-### `npm start`
+The key user journey and expectation is to be able to easily find students, sort based on certain criter and easily search through the database. Afterwards, the user may intend to deep dive into the student's profile including their course enlistments, current status and fees.
+
+## The Building Blocks
+
+1. For CSS, the project uses SCSS/SASS for preprocessing.
+2. For Frontend JS Library, the project uses React JS for user interfaces and component management.
+3. For deployment, Vercel is used for live production.
+4. For version control system, Git Hub is used for cloud git management.
+5. For APIs, the API used are the challenge links and the Currency Exchange API (exchangerate-api.com)
+6. For API fetching, Axios is used for fetching some API.
+7. Most requested features are built with javascript from scratch without using external libraries, at most only resorting to pre-built react libraries.
+
+
+## The Components and Features
+
+The listed requirements for the technical projects are implemented as follow: 
+
+Students Page Priorities
+- [x] All student profile with the important data points are visible.
+- [x] The total course count for each student is also taken from the Course API. 
+- [x] The student status is also implemented using a javascript component. 
+- [x] Sorting feature is implemented, enabling sorting against Name, Major and Status.
+- [x] Fuzzy Search is also implemented, enabling searches across the database while allowing a certain leeway for spelling and flexible case sensitivity. 
+
+Profile Page Priorities
+- [x] The student profile with the important data points are visible.
+- [x] All courses taken by the student are rendered. Duplicates are also removed.
+- [x] The course fees are visible and summarized.
+- [x] An exchange rate feature is also implemented. 
+
+
+## To run in a local environment:
+
+### In the project directory, you can run: `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The page will reload when you make changes.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# fin-code-challenge
+Please note that console may contain a lot of logs used in the development phase. 
