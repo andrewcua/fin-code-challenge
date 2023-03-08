@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSchool } from "./SchoolContext";
+import SchoolStatus from "./status";
 
 function Students() {
     const [school, setSchool] = useSchool();
@@ -148,14 +149,14 @@ keys.forEach(key=>{
             } else {
               // console.log(`found in ${i} - ${j}`);
               // console.log(courseSummary[profiles[j].user_id]);
-
-              summary.push({image: "user_" + studentsData[i].id + ".jpg", user_id:"user_" + studentsData[i].id,total_course:courseSummary['user_5'],...studentsData[i],...profiles[j]});
               
-              // console.log(summary);
-              // console.log(profiles[j]?.status[0]?.type);
+              console.log("Status Changed", SchoolStatus(profiles[j]?.status[0]?.type));
+
+
+              summary.push({image: "user_" + studentsData[i].id + ".jpg", user_id:"user_" + studentsData[i].id, total_course:courseSummary['user_5'],status_changed: SchoolStatus(profiles[j]?.status[0]?.type),...studentsData[i],...profiles[j]});
+
             }
           } else {
-            // console.log(`none found in ${i} - ${j}`);
           }
         }
       }
@@ -255,17 +256,17 @@ const sortData = event => {
   }
 
   if (value === 'status-asc'){
-    let property = 'status';
+    let property = 'status_changed';
     console.log("now running:", value);
     
-    setSummary(summary.sort((a, b) => a['status'][0].type.localeCompare(b['status'][0].type)));
+    setSummary(summary.sort((a, b) => a[property].localeCompare(b[property])));
     if (searchInput.length>0){
       setTemp(temp.sort((a, b) => a[property].localeCompare(b[property])));
     }
   } 
   
   if (value === 'status-desc'){
-    let property = 'status';
+    let property = 'status_changed';
     console.log("now running:", value);
     
     setSummary(summary.sort((b, a) => a[property].localeCompare(b[property])));
@@ -322,6 +323,7 @@ const handleChange = (e) => {
 return (
     <>
       <script src="https://kit.fontawesome.com/43dcc20e7a.js" crossorigin="anonymous"></script>
+      <p className='profile-header'>School Database App</p>
 <div className="setting-container">
 <div className="setting-left">
       <div className="search-container">
@@ -397,7 +399,8 @@ return (
             <td>{student.phone}</td>
             <td>{student.email}</td>
             <td>{student.major}</td>
-            <td>{student.status[0]?.type ? statusCheck(student.status[0].type) : "Withdrawn"}</td>
+            <td>{student.status_changed}</td>
+            
             <td>{student.total_course}</td>
           </tr>
         )

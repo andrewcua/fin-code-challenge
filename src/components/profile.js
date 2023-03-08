@@ -7,21 +7,63 @@ import { useEffect,useState } from 'react';
 
 const hello = (args) => {
 
-    return <div><h1>Profile of {args}</h1></div>
+    return <div><p className='profile-header'>Profile of {args}</p></div>
 }
 
 function Profile (){
     const { id } = useParams();
+
     // const num = Number(id) - 1;
     console.log('here is the id: ' + id);
 
     const [courses,setCourses] = useState([]);
     const [school, setSchool] = useSchool();
+    const [currency, setCurrency] = useState('USD');
+    const [rate, setRate] = useState([]);
+    const [reload, setReload] = useState(true);
+    const [multiple, setMultiple] = useState('1');
     console.log("Value of school in Profile: ", school);
 
+    /////////////////////////////
+    // CURRENCY FETCH - START //
+    ///////////////////////////
+   useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('https://v6.exchangerate-api.com/v6/3afebd846bb3b3774087066e/latest/USD')
+      if (!response.ok) {
+        throw new Error('Data coud not be fetched!')
+      } else {
+        return response.json()
+      }
+    }
+
+    fetchData()
+      .then((res) => {
+        console.log(res.conversion_rates);
+        setRate(res.conversion_rates);
+      })
+      .catch((e) => {
+        console.log(e.message)
+      })
+  }, [])
+
+  useEffect(() => {
+    console.log("RATE LIST:", rate);
+    console.log("CNY RATE:", rate['CNY']);
+ }, [rate])
+
+ useEffect(() => {
+    console.log("Current selected currency:", currency);
+
+    console.log("Multiple Updated (Multiplier to Base Rate):", multiple);
+ }, [multiple])
+
+    //\\\\\\\\\\\\\\\\\\\\\\\\\//
     ///////////////////////////
     // COURSE FETCH - START //
     ///////////////////////////
+
+
    useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('https://run.mocky.io/v3/34bdbb5f-70c0-41ce-aa0c-2bf46befa477')
@@ -34,12 +76,10 @@ function Profile (){
 
     fetchData()
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setCourses(res)
-        console.log("COURSES ITEMS HERE:");
-        console.log(courses);
-        
-        
+        // console.log("COURSES ITEMS HERE:");
+        // console.log(courses);
       })
       .catch((e) => {
         console.log(e.message)
@@ -72,22 +112,18 @@ function Profile (){
         
     for( var i=0, l=enrolled.length; i<l; i++){
         let mergee = `${enrolled[i].semester_code}${enrolled[i].course_selection}`;
-        console.log("value of mergee", mergee);
+        // console.log("value of mergee", mergee);
         enroll_raw.push({...enrolled[i],merged:mergee});
-        console.log("enroll raw value:", enroll_raw)
+        // console.log("enroll raw value:", enroll_raw)
     }
 
-    
     for (const item of enroll_raw) {
     const isDuplicate = enroll_unique.find((obj) => obj.merged === item.merged);
     if (!isDuplicate) {
         enroll_unique.push(item);
     }
     }
-    console.log("Unique is", enroll_unique);
-
-    
-
+    // console.log("Unique is", enroll_unique);
 
 useEffect(() => {
     console.log("enrolled in:",enrolled);
@@ -103,7 +139,7 @@ useEffect(() => {
     }
 
     const currencySelected = () => {
-        return "US$ ";
+        return "USD";
     }
     
     
@@ -111,15 +147,55 @@ useEffect(() => {
         ev.target.src = process.env.PUBLIC_URL + '/photos/default.jpg';
       }
 
+      const changeCurrency = event => {
+        const selectedCurrency = event.target.value; 
+        console.log("now changing currency to:", selectedCurrency);
+        console.log("invoking rate of selected currency:", rate[selectedCurrency]);
+        setCurrency(selectedCurrency);
+        setMultiple(rate[selectedCurrency]);
+      }
+
+      const rateMultiplier = (currency) => {
+            // setReload(!reload);
+            console.log('rate multiplier:', rate[currency]);
+            return rate[currency]
+      }
+
+    //   const currencyList = () => {
+    //     return Object.getOwnPropertyNames(rate);
+    //   }
+
+    //convert final viewable number to a string with comma and two zeroes
+    const formattedNumber = (item) => item.toLocaleString("en-US");
+
     return (
 <>
 
 
 <div className="section-profile">
-<Link to="/"><button className='button-home button-footer'>Back Home</button></Link>
+    <div className="profile-header-container">
+    <Link to="/"><button className='button-home button-footer'>Back Home</button></Link>
+
+<div className="profile-setting-right">
+    <select className="minimal" onChange={changeCurrency}>
+        {Object.getOwnPropertyNames(rate).map((item)=>{
+            return (
+            <option value={item}>Currency: {item} </option>
+            )
+        })}
+        
+        <option value="CNY">Currency: CNY (CN Yen)</option>
+
+    </select>
+
+</div>
+
+    </div>
+
+
 
 <div className="header-content">
-    <h1> User ID: {id} </h1>
+    
     {hello(result.name)}
 </div>
     
@@ -134,11 +210,12 @@ useEffect(() => {
     </div>
     
               <div className="profile-data">
+              <p> User ID: <span>{id}</span></p>
               <p>Name: <span>{result.name} {result.nickname ? `(${result.nickname})` : null}</span></p>
     <p>Major: <span>{result.major}</span></p>
     <p>Year: <span>{result.year}</span></p>
     <p>Status: <span>{result.status[0]?.type ? SchoolStatus(result.status[0].type) : "Withdrawn"}</span></p>
-    <p>Total Course Fee: <span>{currencySelected()}{total_fee()}</span></p>
+    <p>Total Course Fee: <span>{currency} {formattedNumber(multiple*Number(total_fee()))}</span></p>
               </div>
 
     </div>
@@ -156,14 +233,14 @@ useEffect(() => {
 
         
         {enroll_unique.map((raw)=>{
-            console.log("value at DOM of enroll_raw", enroll_raw)
+            // console.log("value at DOM of enroll_raw", enroll_raw)
             return (
         <tr className="profile-courses-row" key={1+id}>
             <td>{raw.semester_code}</td>
             <td>{raw.course_name}</td>
             <td>{raw.course_selection}</td>
-            <td>{currencySelected()}{raw.course_fee}</td>
-            
+            <td>{currency} {formattedNumber(multiple*Number(raw.course_fee))}</td>
+            {/* {rateMultiplier()*Number(raw.course_fee)} */}
         </tr>
             )
         })}

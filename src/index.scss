@@ -166,6 +166,13 @@
   
 }
 
+.table-header {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
@@ -195,6 +202,13 @@ tr:nth-child(even) {
 .section-profile {
   padding: 5rem;
 
+}
+
+.profile-header {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: 2rem;
 }
 
 .profile-photo {
@@ -238,11 +252,29 @@ tr:nth-child(even) {
   border-style: none;
   background-color: lightgray;
   margin-block: 1rem;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: rgb(180, 180, 180);
+  }
 }
 
 .header-content {
   text-align: center;
   margin-bottom: 2rem;
+}
+
+.profile-header-container {
+  display: flex;
+flex-direction: column;
+  @include lg {
+    flex-direction: row;
+}
+}
+
+.profile-setting-right { 
+  display: block;
+  margin-left: auto;
 }
 
 // SETTING SECTION
@@ -259,8 +291,6 @@ flex-direction: column;
   display: block;
   margin-left: auto;
 }
-
-
 
 select {
 
