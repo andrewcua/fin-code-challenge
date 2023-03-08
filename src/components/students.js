@@ -131,6 +131,9 @@ keys.forEach(key=>{
       }
     // console.log(`value of data 2 is: ${data2}`);
 
+    // ITERATION OF TOTAL COURSES
+
+  
 
 ///////\\\\\\\\\\\\\\\\\\\\\
 ////// ITERATION \\\\\\\\\\\\
@@ -149,11 +152,15 @@ keys.forEach(key=>{
             } else {
               // console.log(`found in ${i} - ${j}`);
               // console.log(courseSummary[profiles[j].user_id]);
-              
-              console.log("Status Changed", SchoolStatus(profiles[j]?.status[0]?.type));
+              // console.log("Status Changed", SchoolStatus(profiles[j]?.status[0]?.type));
+              console.log("summary is pushing");
+
+              const newcourse = courses.filter(item => item.user_id == profiles[j].user_id);
+              const coursetotal = newcourse.length;
+              console.log(`new course is ${coursetotal}`);
 
 
-              summary.push({image: "user_" + studentsData[i].id + ".jpg", user_id:"user_" + studentsData[i].id, total_course:courseSummary['user_5'],status_changed: SchoolStatus(profiles[j]?.status[0]?.type),...studentsData[i],...profiles[j]});
+              summary.push({image: "user_" + studentsData[i].id + ".jpg", user_id:"user_" + studentsData[i].id, course_total:coursetotal, total_course:courseSummary['user_5'],status_changed: SchoolStatus(profiles[j]?.status[0]?.type),...studentsData[i],...profiles[j]});
 
             }
           } else {
@@ -400,8 +407,7 @@ return (
             <td>{student.email}</td>
             <td>{student.major}</td>
             <td>{student.status_changed}</td>
-            
-            <td>{student.total_course}</td>
+            <td>{student.course_total}</td>
           </tr>
         )
       })
