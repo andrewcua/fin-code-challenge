@@ -26,35 +26,7 @@ function Students() {
 // FUZZY EXPERIMENT
 useEffect(()=>{
 
-  
-  // const books = [
-  //   {
-  //     title: "The Lord of the Rings",
-  //     author: "J.R.R. Tolkien",
-  //     year: 1954
-  //   },
-  //   {
-  //     title: "The Hobbit",
-  //     author: "J.R.R. Tolkien",
-  //     year: 1937
-  //   },
-  //   {
-  //     title: "Harry Potter and the Philosopher's Stone",
-  //     author: "J.K. Rowling",
-  //     year: 1997
-  //   }
-  // ];
-  // const fuzzy_result = books.filter(book => regex.test(`${book.title} ${book.author}`));
-
-  
-  // const input = searchInput;
-  // const pattern = `.*${input.split('').join('.*')}.*`;
-  // const regex = new RegExp(pattern, 'i');
-  
-  // const fuzzy_result = summary.filter(item => regex.test(`${item.name} ${item.major}`));
   console.log("search input is:", searchInput);
-
-  // setSummary(summary.filter(item => regex.test(`${item.name} ${item.major}`)));
 
 },[searchInput]);
   
@@ -231,7 +203,7 @@ const sorted = summary;
 //   console.log("sorted data is", data);
 // };
 
-
+//SORT LOGIC
 const sortData = event => {
   console.log("sorted OG is", sorted);
   
@@ -245,6 +217,9 @@ const sortData = event => {
     console.log("now running:", value);
     
     setSummary(summary.sort((a, b) => a[property].localeCompare(b[property])));
+    if (searchInput.length>0){
+      setTemp(temp.sort((a, b) => a[property].localeCompare(b[property])));
+    }
   } 
   
   if (value === 'name-desc'){
@@ -252,6 +227,10 @@ const sortData = event => {
     console.log("now running:", value);
     
     setSummary(summary.sort((b, a) => a[property].localeCompare(b[property])));
+    if (searchInput.length>0){
+      setTemp(temp.sort((b, a) => a[property].localeCompare(b[property])));
+    }
+
   }
 
   if (value === 'major-asc'){
@@ -259,6 +238,9 @@ const sortData = event => {
     console.log("now running:", value);
     
     setSummary(summary.sort((a, b) => a[property].localeCompare(b[property])));
+    if (searchInput.length>0){
+      setTemp(temp.sort((a, b) => a[property].localeCompare(b[property])));
+    }
   } 
   
   if (value === 'major-desc'){
@@ -266,12 +248,41 @@ const sortData = event => {
     console.log("now running:", value);
     
     setSummary(summary.sort((b, a) => a[property].localeCompare(b[property])));
+    if (searchInput.length>0){
+      setTemp(temp.sort((b, a) => a[property].localeCompare(b[property])));
+    }
+
   }
+
+  if (value === 'status-asc'){
+    let property = 'status';
+    console.log("now running:", value);
+    
+    setSummary(summary.sort((a, b) => a['status'][0].type.localeCompare(b['status'][0].type)));
+    if (searchInput.length>0){
+      setTemp(temp.sort((a, b) => a[property].localeCompare(b[property])));
+    }
+  } 
+  
+  if (value === 'status-desc'){
+    let property = 'status';
+    console.log("now running:", value);
+    
+    setSummary(summary.sort((b, a) => a[property].localeCompare(b[property])));
+    if (searchInput.length>0){
+      setTemp(temp.sort((b, a) => a[property].localeCompare(b[property])));
+    }
+
+  }
+
   console.log("sorted data is", data);
 };
 
-//FUZZY SEARCH LOGIC
+//// START: FUZZY SEARCH LOGIC
 const mapped = () => {
+  setTimeout(()=>{
+    console.log('fuzzy search mini time out 0.1s');
+  },100);
   if(temp.length>0){
     return temp
   }
@@ -288,20 +299,22 @@ const handleChange = (e) => {
   const pattern = `.*${input.split('').join('.*')}.*`;
   const regex = new RegExp(pattern, 'i');
   
-  const fuzzy_result = school.filter(item => regex.test(`${item.name} ${item.email} ${item.phone} ${item.major}`));
+  const fuzzy_result = summary.filter(item => regex.test(`${item.name} ${item.email} ${item.phone} ${item.major}`));
   console.log("fuzzy_result is:", fuzzy_result);
-  // setFuzzyfiltered(fuzzy_result);
-  setTimeout(()=>{
+  if(e.target.value===""){
+    setTemp(summary);
+  } else {
     setTemp(fuzzy_result);
-  },500);
+  }
 
-// if(temp.length>0) {
-//   const mapped = temp;
-// } else {
-//   const mapped = summary;
-// }
+  // setFuzzyfiltered(fuzzy_result);
+  // setTimeout(()=>{
+  //   setTemp(fuzzy_result);
+  // },10);
 
 };
+
+//// END: FUZZY SEARCH LOGIC
 
 // OLD CODE REFERENCE: sortie.sort((a, b) => a.id - b.id);
 
@@ -337,6 +350,8 @@ return (
         <option value="name-desc">Sort by Name (Descending)</option>
         <option value="major-asc" >Sort by Major (Ascending)</option>
         <option value="major-desc">Sort by Major (Descending)</option>
+        <option value="status-asc" >Sort by Status (Ascending)</option>
+        <option value="status-desc">Sort by Status (Descending)</option>
     </select>
 
     </div>
